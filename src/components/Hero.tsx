@@ -48,7 +48,7 @@ const Hero = () => {
             Hi, I'm <span className="text-blue-600">Rahul S Kumar</span>
           </h1>
           <p ref={subtitleRef} className="text-xl md:text-2xl text-gray-600 mb-8">
-            Full Stack Developer & Team Lead
+            Full Stack Developer
           </p>
           <p ref={descriptionRef} className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
             3+ years of experience specializing in Laravel, React.js, and Next.js. 
