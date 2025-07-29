@@ -59,13 +59,13 @@ const Header = () => {
 
           {/* Social Links */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="https://github.com/rahulsk666" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 transition-colors">
               <Github size={20} />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="https://linkedin.com/in/rahulskumar001" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 transition-colors">
               <Linkedin size={20} />
             </a>
-            <a href="mailto:rahul@example.com" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="mailto:rahulsunilkumar001@gmail.com" className="text-gray-600 hover:text-gray-900 transition-colors">
               <Mail size={20} />
             </a>
           </div>
