@@ -1,6 +1,14 @@
 import { motion } from "framer-motion";
 
 const About = () => {
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/Resume/resume.pdf";
+    link.download = "resume.pdf"; // optional rename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <section id="about" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,6 +94,7 @@ const About = () => {
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={handleDownload}
               >
                 Download Resume
               </motion.button>
@@ -101,13 +110,13 @@ const About = () => {
           >
             <div className="relative">
               <motion.img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop"
+                src="rahul.jpg"
                 alt="Rahul S Kumar"
                 className="rounded-2xl shadow-2xl w-full max-w-md mx-auto"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               />
-              <div className="absolute inset-0 bg-blue-600 opacity-20 rounded-2xl"></div>
+              <div className="absolute inset-0 bg-blue-600 opacity-10 rounded-2xl"></div>
             </div>
           </motion.div>
         </div>
