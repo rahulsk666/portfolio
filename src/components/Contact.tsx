@@ -26,32 +26,29 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log("ENV:", import.meta.env);
-    // console.log("PUBLIC KEY:", import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
 
     if (!form.current) return;
-    // emailjs
-    //   .sendForm(
-    //     import.meta.env.VITE_EMAILJS_SERVICE_ID,
-    //     import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-    //     form.current,
-    //     {
-    //       publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-    //     }
-    //   )
-    //   .then(
-    //     () => {
-    //       toast.success(
-    //         "Thank you for your message! I'll get back to you soon."
-    //       );
-    //       setFormData({ name: "", email: "", subject: "", message: "" });
-    //     },
-    //     (error) => {
-    //       toast.error(error);
-    //       console.log(error);
-    //     }
-    //   );
-    toast.success("Thank you for your message! I'll get back to you soon.");
+    emailjs
+      .sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        form.current,
+        {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        }
+      )
+      .then(
+        () => {
+          toast.success(
+            "Thank you for your message! I'll get back to you soon."
+          );
+          setFormData({ name: "", email: "", subject: "", message: "" });
+        },
+        (error) => {
+          toast.error(error);
+          console.log(error);
+        }
+      );
   };
 
   const containerVariants = {
