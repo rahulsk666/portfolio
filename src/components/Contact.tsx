@@ -1,29 +1,54 @@
-
-import React, { useState } from 'react';
-import { Mail, Github, Linkedin } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState } from "react";
+import { Mail, Github, Linkedin } from "lucide-react";
+import { motion } from "framer-motion";
+import { toast } from "sonner";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
+  const form = useRef<HTMLFormElement | null>(null);
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! I\'ll get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+
+    if (!form.current) return;
+    emailjs
+      .sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        form.current,
+        {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        }
+      )
+      .then(
+        () => {
+          toast.success(
+            "Thank you for your message! I'll get back to you soon."
+          );
+          setFormData({ name: "", email: "", subject: "", message: "" });
+        },
+        (error) => {
+          toast.error(error);
+          console.log(error);
+        }
+      );
   };
 
   const containerVariants = {
@@ -31,9 +56,9 @@ const Contact = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3
-      }
-    }
+        staggerChildren: 0.3,
+      },
+    },
   };
 
   const itemVariants = {
@@ -42,24 +67,27 @@ const Contact = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6
-      }
-    }
+        duration: 0.6,
+      },
+    },
   };
 
   return (
     <section id="contact" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Get In Touch
+          </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            I'm always open to discussing new opportunities, interesting projects, or collaboration on innovative solutions.
+            I'm always open to discussing new opportunities, interesting
+            projects, or collaboration on innovative solutions.
           </p>
         </motion.div>
 
@@ -70,13 +98,16 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Let's Connect</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+              Let's Connect
+            </h3>
             <p className="text-gray-600 mb-8">
-              Whether you're looking for a Full-Stack Developer, need technical expertise, 
-              or want to discuss potential collaborations, I'd love to hear from you!
+              Whether you're looking for a Full-Stack Developer, need technical
+              expertise, or want to discuss potential collaborations, I'd love
+              to hear from you!
             </p>
 
-            <motion.div 
+            <motion.div
               className="space-y-6"
               variants={containerVariants}
               initial="hidden"
@@ -84,11 +115,26 @@ const Contact = () => {
               viewport={{ once: true }}
             >
               {[
-                { icon: Mail, title: "Email", content: "rahulsk666@gmail.com", link: "mailto:rahulsk666@gmail.com" },
-                { icon: Github, title: "GitHub", content: "github.com/rahulsk666", link: "https://github.com/rahulsk666" },
-                { icon: Linkedin, title: "LinkedIn", content: "linkedin.com/in/rahulskumar001", link: "https://linkedin.com/in/rahulskumar001" }
+                {
+                  icon: Mail,
+                  title: "Email",
+                  content: "rahulsk666@gmail.com",
+                  link: "mailto:rahulsk666@gmail.com",
+                },
+                {
+                  icon: Github,
+                  title: "GitHub",
+                  content: "github.com/rahulsk666",
+                  link: "https://github.com/rahulsk666",
+                },
+                {
+                  icon: Linkedin,
+                  title: "LinkedIn",
+                  content: "linkedin.com/in/rahulskumar001",
+                  link: "https://linkedin.com/in/rahulskumar001",
+                },
               ].map((contact, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
                   className="flex items-center space-x-4"
                   variants={itemVariants}
@@ -98,8 +144,17 @@ const Contact = () => {
                     <contact.icon className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-900">{contact.title}</h4>
-                    <a href={contact.link} target={contact.link.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                    <h4 className="font-medium text-gray-900">
+                      {contact.title}
+                    </h4>
+                    <a
+                      href={contact.link}
+                      target={
+                        contact.link.startsWith("http") ? "_blank" : undefined
+                      }
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800"
+                    >
                       {contact.content}
                     </a>
                   </div>
@@ -108,36 +163,58 @@ const Contact = () => {
             </motion.div>
 
             <div className="mt-8 p-6 bg-blue-50 rounded-lg">
-              <h4 className="font-semibold text-gray-900 mb-2">Current Status</h4>
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Current Status
+              </h4>
               <p className="text-gray-600 text-sm">
-                🟢 Available for freelance projects and full-time opportunities<br/>
-                📍 Based in India, open to remote work<br/>
+                🟢 Available for freelance projects and full-time opportunities
+                <br />
+                📍 Based in India, open to remote work
+                <br />
                 💼 Currently at QBurst as a Frontend Developer
               </p>
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="bg-white rounded-xl shadow-lg p-8"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
               {[
-                { name: 'name', label: 'Name', type: 'text', placeholder: 'Your name' },
-                { name: 'email', label: 'Email', type: 'email', placeholder: 'your.email@example.com' },
-                { name: 'subject', label: 'Subject', type: 'text', placeholder: "What's this about?" }
+                {
+                  name: "name",
+                  label: "Name",
+                  type: "text",
+                  placeholder: "Your name",
+                },
+                {
+                  name: "email",
+                  label: "Email",
+                  type: "email",
+                  placeholder: "your.email@example.com",
+                },
+                {
+                  name: "subject",
+                  label: "Subject",
+                  type: "text",
+                  placeholder: "What's this about?",
+                },
               ].map((field, index) => (
-                <motion.div 
+                <motion.div
                   key={field.name}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor={field.name}
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     {field.label}
                   </label>
                   <motion.input
@@ -160,7 +237,10 @@ const Contact = () => {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 viewport={{ once: true }}
               >
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Message
                 </label>
                 <motion.textarea
