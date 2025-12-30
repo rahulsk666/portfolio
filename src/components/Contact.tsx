@@ -26,8 +26,8 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("ENV:", import.meta.env);
-    console.log("PUBLIC KEY:", import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+    // console.log("ENV:", import.meta.env);
+    // console.log("PUBLIC KEY:", import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
 
     if (!form.current) return;
     // emailjs
@@ -51,6 +51,7 @@ const Contact = () => {
     //       console.log(error);
     //     }
     //   );
+    toast.success("Thank you for your message! I'll get back to you soon.");
   };
 
   const containerVariants = {
